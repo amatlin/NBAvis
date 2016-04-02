@@ -5,6 +5,9 @@ In this workshop, we will scrape data from the web, process it in R, and guide p
 making a web app in R. By the end of the workshop, each participant will have made a visualization of player data 
 as a web application.
 
+## Important!
+Before proceeding, be sure to open the file 'NBAvis_presentation.pptx' and go to the "Resource dump" slide. You'll find a lot of useful information and answers there.
+
 ## Necessary packages to install
 Run the following commands if you don't have the packages installed already.
 
