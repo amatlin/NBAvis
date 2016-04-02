@@ -3,7 +3,7 @@
 ## The world of sports data is vast, and significant quantities of information are publicly available online. 
 In this workshop, we will scrape data from the web, process it in R, and guide participants through the basics of
 making a web app in R. By the end of the workshop, each participant will have made a visualization of player data 
-as a web application.
+as a web application. Below is what the final product will look like:
 
 ![Image of Final Product](/final_product.png)
 
