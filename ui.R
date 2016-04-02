@@ -5,7 +5,8 @@ shinyUI(pageWithSidebar(
     actionButton('makePlot', 'Show')
   ),
   mainPanel(
-    #imageOutput('backgroundCourt')
+    textOutput("position"),
+    textOutput("number"),
     plotOutput("shotPlot")
   )
 ))

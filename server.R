@@ -6,12 +6,26 @@ library(RCurl)
 setwd('~/Documents/Projects/NCAA/NBA')
 
 player_data = read.csv('player_data.csv', header = F)
-colnames(player_data) = c('Name', 'ID')
+colnames(player_data) = c('Name', 'ID', 'Position', 'Number')
 
 shinyServer(function(input, output, session) {
 
   output$playerChoices <- renderUI({
     selectInput("player_name", "Player Names", as.list(as.character(player_data$Name))) 
+  })
+  
+  output$position <- renderText ({
+    playerName = input$player_name
+    position = player_data$Position[which(player_data$Name == playerName)[1]]
+    
+    paste("Position:", position)
+  })
+  
+  output$number <- renderText({
+    playerName = input$player_name
+    number = player_data$Number[which(player_data$Name == playerName)[1]]
+    
+    paste("Number:", number)
   })
   
   output$backgroundCourt <- renderImage({
@@ -54,15 +68,9 @@ shinyServer(function(input, output, session) {
       annotation_custom(court, -250, 250, -50, 420) +
       geom_point(aes(colour = SHOT_ZONE_BASIC, shape = EVENT_TYPE)) +
       xlim(-250, 250) +
-      ylim(-50, 420)
+      ylim(-50, 420) + scale_shape_manual(values = c(4,16))
     
     print(p)
-  })
-  
-  output$plot1 <- renderPlot({
-    
-    
-    
   })
   
 })

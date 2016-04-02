@@ -21,18 +21,15 @@ def getNumber(player):
 
 def getPosition(player):
 	allText = player.get_text()
-	return(re.findall('\d+|\D+', allText)[2])
+	return(re.findall('\d+|\D+', allText)[2]).split(u"\x95")[1]
 
 
 def getID(player):
-	split_src = (player.find('img')['src']).split(c('/'))
+	split_src = (player.find('img')['src']).split('/')
 	return split_src[len(split_src)-1].split('.')[0]
 
-allText = players[0].get_text()
-print allText.split("\x95")
-#print re.findall('\d+|\D+', allText)
 
-'''
+
 names = [getName(player) for player in players]
 ids = [getID(player) for player in players]
 positions = [getPosition(player) for player in players]
@@ -43,5 +40,5 @@ print names, ids, positions, numbers
 with open('player_data.csv', 'wb') as f:
     writer = csv.writer(f)
     writer.writerows(izip(names, ids, positions, numbers))
-'''
+
    
