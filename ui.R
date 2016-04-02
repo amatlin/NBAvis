@@ -5,8 +5,8 @@ shinyUI(pageWithSidebar(
     actionButton('makePlot', 'Show')
   ),
   mainPanel(
-    textOutput("position"),
-    textOutput("number"),
+    h2(textOutput("position"), align = "center"),
+    h3(textOutput("number"), align = "center"),
     plotOutput("shotPlot")
   )
 ))
