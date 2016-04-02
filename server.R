@@ -5,15 +5,18 @@ library(rjson)
 library(RCurl)
 setwd('~/Documents/Projects/NCAA/NBA')
 
+# read in scraped player data 
 player_data = read.csv('player_data.csv', header = F)
 colnames(player_data) = c('Name', 'ID', 'Position', 'Number')
 
 shinyServer(function(input, output, session) {
 
+  # output a list of choices for player name in UI format
   output$playerChoices <- renderUI({
     selectInput("player_name", "Player Names", as.list(as.character(player_data$Name))) 
   })
   
+  # use player name input to return player position as output
   output$position <- renderText ({
     playerName = input$player_name
     position = player_data$Position[which(player_data$Name == playerName)[1]]
@@ -21,6 +24,7 @@ shinyServer(function(input, output, session) {
     paste("Position:", position)
   })
   
+  # use player name input to return player number as output
   output$number <- renderText({
     playerName = input$player_name
     number = player_data$Number[which(player_data$Name == playerName)[1]]
@@ -28,13 +32,15 @@ shinyServer(function(input, output, session) {
     paste("Number:", number)
   })
   
-  output$backgroundCourt <- renderImage({
-
-      filename = normalizePath(file.path('nba_court.jpg'))
-      list(src = filename,
-           alt = filename)
-  }, delete = FALSE)
   
+#   output$backgroundCourt <- renderImage({
+# 
+#       filename = normalizePath(file.path('nba_court.jpg'))
+#       list(src = filename,
+#            alt = filename)
+#   }, delete = FALSE)
+  
+  # whenever something changes on the UI side, retrieve data for new player (only pull if new)
   getData <- reactive({
     playerName = input$player_name
     playerID = player_data$ID[which(player_data$Name == playerName)[1]]
@@ -53,7 +59,7 @@ shinyServer(function(input, output, session) {
     # shot data headers
     colnames(shotDataf) <- shotData$resultSets[[1]][[2]]
     
-    # covert x and y coordinates into numeric
+    # convert x and y coordinates into numeric
     shotDataf$LOC_X <- as.numeric(as.character(shotDataf$LOC_X))
     shotDataf$LOC_Y <- as.numeric(as.character(shotDataf$LOC_Y))
     shotDataf$SHOT_DISTANCE <- as.numeric(as.character(shotDataf$SHOT_DISTANCE))
@@ -61,7 +67,7 @@ shinyServer(function(input, output, session) {
     shotDataf
   })
   
-  # Combine the selected variables into a new data frame
+  # Use ggplot2 to make a plot with the data we have retrieved
   output$shotPlot <- renderPlot({
     
     p = ggplot(getData(), aes(x=LOC_X, y=LOC_Y)) + 
@@ -70,6 +76,7 @@ shinyServer(function(input, output, session) {
       xlim(-250, 250) +
       ylim(-50, 420) + scale_shape_manual(values = c(4,16))
     
+    # in order for the plot to render, it must be explicitly printed
     print(p)
   })
   
