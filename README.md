@@ -17,8 +17,6 @@ Python: run in terminal/command line
 
 ```
 pip install beautifulsoup4
-pip install re
-pip install csv
 pip install numpy
 ```
 
