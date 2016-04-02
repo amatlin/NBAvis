@@ -9,6 +9,11 @@ setwd('~/Documents/Projects/NCAA/NBA')
 player_data = read.csv('player_data.csv', header = F)
 colnames(player_data) = c('Name', 'ID', 'Position', 'Number')
 
+# half court image
+courtImg.URL <- "https://thedatagame.files.wordpress.com/2016/03/nba_court.jpg"
+court <- rasterGrob(readJPEG(getURLContent(courtImg.URL)),
+                   width=unit(1,"npc"), height=unit(1,"npc"))
+
 shinyServer(function(input, output, session) {
 
   # output a list of choices for player name in UI format
@@ -74,7 +79,7 @@ shinyServer(function(input, output, session) {
       annotation_custom(court, -250, 250, -50, 420) +
       geom_point(aes(colour = SHOT_ZONE_BASIC, shape = EVENT_TYPE)) +
       xlim(-250, 250) +
-      ylim(-50, 420) + scale_shape_manual(values = c(4,16))
+      ylim(-50, 420) + scale_shape_manual(values = c(16,4))
     
     # in order for the plot to render, it must be explicitly printed
     print(p)
